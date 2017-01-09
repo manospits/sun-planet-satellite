@@ -20,11 +20,11 @@ Stars::Stars(){
 
     for (int i = 0; i < numOfStars; i++) {
         starsArray[i].radius = (rand() % 10 + 90) * 0.001f;
-        starsArray[i].x = rand() % 60 - 30;
-        starsArray[i].y = rand() %  60 -30;
+        starsArray[i].x = rand() % 100 - 50;
+        starsArray[i].y = rand() % 100 - 50;
         starsArray[i].z = -(rand() % 200 );
         starsArray[i].transparecy = 0.0;
-        printf("%f\n",starsArray[i].radius);
+        //printf("%f\n",starsArray[i].radius);
     }
 
 }
@@ -57,7 +57,7 @@ Stars::~Stars() {
 
 void Stars::DrawStars(){
     float x,y,z,t,r;
-    printf("%d\n", numOfStars);
+    //printf("%d\n", numOfStars);
     for(int i=0;i<numOfStars;i++){
       glPushMatrix();
       x=starsArray[i].x;
