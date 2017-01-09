@@ -22,7 +22,7 @@ Stars::Stars(){
         starsArray[i].radius = (rand() % 10 + 90) * 0.001f;
         starsArray[i].x = rand() % 60 - 30;
         starsArray[i].y = rand() %  60 -30;
-        starsArray[i].z = rand() % 50 - 25;
+        starsArray[i].z = -(rand() % 200 );
         starsArray[i].transparecy = 0.0;
         printf("%f\n",starsArray[i].radius);
     }
@@ -83,12 +83,17 @@ void createSun() {
 
   glRotatef(cx, 0,1,0);
   glRotatef(cy, 1,0,0);
+  glTranslatef(0,0,+100);
+
+  glPushMatrix();
+  glTranslatef(0,0,-100);
   glColor3f(1.0, 0.5, 0.2);							   // Set drawing colour
   glutSolidSphere(15.0, 30, 23);							   // Draw a built-in primitive
 
 
   glColor4f(1.0, 0.5, 0.2, light_anim);					   // Set drawing colour and transparency
   glutSolidSphere(15.0 + 5.0 * light_anim, 30, 23);							   // Draw a built-in primitive
+  glPopMatrix();
 }
 
 void Render()
@@ -148,7 +153,7 @@ void Setup()  // TOUCH IT !!
 	glShadeModel (GL_SMOOTH);
 
 	//(02)
-//	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 //	glDepthFunc(GL_LEQUAL);  //renders a fragment if its z value is less or equal of the stored value
 //	glClearDepth(1);
 
