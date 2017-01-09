@@ -1,14 +1,14 @@
 #ifndef VISUALS_H
 #define VISUALS_H
+
 #define MIN_STARS 10
-#define MAX_STARS 100
+#define MAX_STARS 1000
 
 typedef struct Star {
     float radius;
     float x;
     float y;
     float z;
-    float transparecy;
 } Star;
 
 class Stars {
@@ -16,9 +16,11 @@ public:
     Stars();
     ~Stars();
     void DrawStars();
+
 private:
     int numOfStars;
     Star *starsArray;
+
 };
 
 //-------- Functions --------------------------------

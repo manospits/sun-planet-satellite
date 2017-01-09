@@ -1,14 +1,3 @@
-//--------------------------------------------------//
-//													//
-//    Learning OpenGL: Εισαγωγικά Μαθήματα OpenGL   //
-//													//
-//    Πλατφόρμα ανάπτυξης παραδειγμάτων				//
-//													//
-//													//
-//		Μάθημα 4ο									//
-//--------------------------------------------------//
-
-
 #include <stdio.h>     // - Just for some ASCII messages
 #include "gl/glut.h"   // - An interface and windows
                        //   management library
@@ -38,8 +27,8 @@ int main(int argc, char* argv[])
 
   // Define the main window size and initial position
   // ( upper left corner, boundaries included )
-  glutInitWindowSize(480,480);
-  glutInitWindowPosition(50,50);
+  glutInitWindowSize(860, 860);
+  glutInitWindowPosition(50, 50);
 
   // Create and label the main window
   glutCreateWindow("Course4");
