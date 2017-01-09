@@ -10,10 +10,13 @@
 #define LIGHT_VAL 0.01;
 
 Stars stars;
+model md;
 static float light_anim = 0.0;
 static bool plus = true;
 static bool pause_anim = false;
 static float cx = 0.0f, cy = 0.0f;
+
+void ReadFile();
 
 Stars::Stars(){
     srand(time(NULL));
@@ -151,7 +154,7 @@ void Keyboard(unsigned char key,int x,int y) {
 }
 
 void Setup() {
-
+    ReadFile();
 	glShadeModel (GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -186,4 +189,28 @@ void Setup() {
 	// Black background
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+}
+
+void ReadFile()
+{
+    FILE * pFile;
+    char buf[16];
+    pFile = fopen ("planet.obj","r");
+    int i,j,k;
+    while(feof(pFile)){
+        fscanf(pFile,"%s",buf);
+        if(strcmp(buf,"v")==0){
+            fscanf(pFile,"%f %f %f",&md.obj_points[i].x,&md.obj_points[i].y,&md.obj_points[i].z);
+            i++;
+        }
+        else if (strcmp(buf,"f")==0) {
+            fscanf(pFile,"%d//%d %d//%d %d//%d",&md.obj_faces[j].v[0],&md.obj_faces[j].vn[0],&md.obj_faces[j].v[1],&md.obj_faces[j].vn[1],&md.obj_faces[j].v[2],&md.obj_faces[j].vn[2]);
+            j++;
+        }
+        else if(strcmp(buf,"vn")==0){
+            fscanf(pFile,"%f %f %f",&md.vn[k].z,&md.vn[k].y,&md.vn[k].z);
+            k++;
+        }
+    }
+    fclose(pFile);
 }

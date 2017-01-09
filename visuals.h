@@ -3,6 +3,10 @@
 
 #define MIN_STARS 10
 #define MAX_STARS 1000
+#define POLYGON_NUM 9124
+#define FNUM 18240
+#define VNUM 9124
+
 
 typedef struct Star {
     float radius;
@@ -21,6 +25,29 @@ private:
     int numOfStars;
     Star *starsArray;
 
+};
+
+struct point
+{
+    float x;
+    float y;
+    float z;
+};
+
+struct face
+{
+    int v[3];
+    int vn[3];
+
+};
+
+struct model
+{
+    point obj_points[VNUM];
+    point vn[POLYGON_NUM];
+    face obj_faces[FNUM];
+    int vertices;
+    int faces;
 };
 
 //-------- Functions --------------------------------
