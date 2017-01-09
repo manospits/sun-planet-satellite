@@ -23,8 +23,8 @@ Stars::Stars(){
     for (int i = 0; i < numOfStars; i++) {
         // starsArray[i].radius = (rand() % 10 + 90) * 0.001f;
         starsArray[i].radius = 0.2;
-        starsArray[i].x = rand() % 201 - 100; // range between [-50, 50]
-        starsArray[i].y = rand() % 201 - 100; // range between [-50, 50]
+        starsArray[i].x = rand() % 201 - 100; // range between [-100, 100]
+        starsArray[i].y = rand() % 201 - 100; // range between [-100, 100]
         starsArray[i].z = rand() % 201 - 300; //range between [-300, -100]
     }
 
@@ -60,11 +60,11 @@ void createSun() {
 
   glPushMatrix();
   glTranslatef(0,0,-200);
-  glColor4f(1.0, 0.5, 0.2, 1.0);							   // Set drawing colour
+  glColor4f(1.0, 1.0, 0.4, 1.0);							   // Set drawing colour
   glutSolidSphere(15.0, 30, 23);							   // Draw a built-in primitive
 
 
-  glColor4f(1.0, 0.5, 0.2, light_anim);					   // Set drawing colour and transparency
+  glColor4f(1.0, 1.0, 0.4, light_anim);					   // Set drawing colour and transparency
   glutSolidSphere(15.0 + 5.0 * light_anim, 30, 23);							   // Draw a built-in primitive
   glPopMatrix();
 }
@@ -78,7 +78,7 @@ void Render()
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  glTranslatef(0,0,-200);
+  glTranslatef(0,0, -200);
   glRotatef(cx, 0,1,0);
   glRotatef(cy, 1,0,0);
   glTranslatef(0,0, 200);
@@ -86,6 +86,7 @@ void Render()
   createSun();
 
   stars.DrawStars();
+
   glTranslatef(0, 0, 200);
   glutSwapBuffers();             // All drawing commands applied to the
                                  // hidden buffer, so now, bring forward
@@ -111,15 +112,14 @@ void Resize(int w, int h)
 void Idle() {
 
     if (! pause_anim) {
-        if(light_anim >= 1.0){
+        if (light_anim >= 1.0){
             plus = false;
-            //light_anim-=LIGHT_VAL;
-        }else if(light_anim <= 0.0) {
+        } else if (light_anim <= 0.0) {
              plus = true;
-             //light_anim += LIGHT_VAL;
         }
+
         if (plus) {
-            light_anim+=LIGHT_VAL;
+            light_anim += LIGHT_VAL;
         } else if (!plus) {
             light_anim -= LIGHT_VAL;
         }
@@ -161,7 +161,7 @@ void Setup() {
 	glColorMaterial( GL_FRONT, GL_AMBIENT_AND_DIFFUSE );
 
 	//Set up light source
-	GLfloat light_position[] = { 0.0, 0.0, -200.0, 0.0 };
+	GLfloat light_position[] = { 0.0, 0.0, -5.0, 0.0 };
 	glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
 	GLfloat ambientLight[] = { 0.3, 0.3, 0.3, 1.0 };
@@ -184,6 +184,6 @@ void Setup() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Black background
-	glClearColor(0.0f,0.0f,0.0f,1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 }
