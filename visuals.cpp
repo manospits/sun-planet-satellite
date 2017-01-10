@@ -17,8 +17,9 @@ static bool pause_anim = false;
 static float cx = 0.0f, cy = 0.0f;
 
 void ReadFile();
+void DisplayModel();
 
-Stars::Stars(){
+    Stars::Stars(){
     srand(time(NULL));
     numOfStars=(rand() % (MAX_STARS - MIN_STARS + 1)) + MIN_STARS;
     starsArray = new Star[numOfStars];
@@ -66,12 +67,20 @@ void createSun() {
   glColor4f(1.0, 1.0, 0.4, 1.0);							   // Set drawing colour
   glutSolidSphere(15.0, 30, 23);							   // Draw a built-in primitive
 
-
   glColor4f(1.0, 1.0, 0.4, light_anim);					   // Set drawing colour and transparency
   glutSolidSphere(15.0 + 5.0 * light_anim, 30, 23);							   // Draw a built-in primitive
   glPopMatrix();
 }
 
+void DrawPlanet(){
+  glPushMatrix();
+  glTranslatef(0,0,-50);
+  glColor3f(0.1, 1.0, 0.4);							   // Set drawing colour
+  //glScalef(0.02,0.02,0.02);
+  DisplayModel();
+  glPopMatrix();
+
+}
 void Render()
 {
   static float deg=0;
@@ -80,17 +89,16 @@ void Render()
 													   // and the depth buffer
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
   glTranslatef(0,0, -200);
   glRotatef(cx, 0,1,0);
   glRotatef(cy, 1,0,0);
   glTranslatef(0,0, 200);
 
-  createSun();
+  //createSun();
+  DrawPlanet();
+  //stars.DrawStars();
 
-  stars.DrawStars();
-
-  glTranslatef(0, 0, 200);
+  //glTranslatef(0, 0, 200);
   glutSwapBuffers();             // All drawing commands applied to the
                                  // hidden buffer, so now, bring forward
                                  // the hidden buffer and hide the visible one
@@ -194,13 +202,14 @@ void Setup() {
 void ReadFile()
 {
     FILE * pFile;
-    char buf[16];
+    char buf[256];
     pFile = fopen ("planet.obj","r");
-    int i,j,k;
-    while(feof(pFile)){
-        fscanf(pFile,"%s",buf);
+    int i=0,j=0,k=0;
+    while(!feof(pFile)){
+        fscanf(pFile,"%s ",buf);
         if(strcmp(buf,"v")==0){
             fscanf(pFile,"%f %f %f",&md.obj_points[i].x,&md.obj_points[i].y,&md.obj_points[i].z);
+            printf("%f %f %f\n",md.obj_points[i].x,md.obj_points[i].y,md.obj_points[i].z);
             i++;
         }
         else if (strcmp(buf,"f")==0) {
@@ -208,9 +217,21 @@ void ReadFile()
             j++;
         }
         else if(strcmp(buf,"vn")==0){
-            fscanf(pFile,"%f %f %f",&md.vn[k].z,&md.vn[k].y,&md.vn[k].z);
+            fscanf(pFile,"%f %f %f",&md.vn[k].x,&md.vn[k].y,&md.vn[k].z);
             k++;
         }
     }
     fclose(pFile);
+}
+
+void DisplayModel(){
+    glPushMatrix();
+    glBegin(GL_TRIANGLES);
+    for(int i=0;i<FNUM;i++){
+        glNormal3f(md.obj_points[md.obj_faces[i].vn[0]-1].x,md.obj_points[md.obj_faces[i].vn[0]-1].y,md.obj_points[md.obj_faces[i].vn[0]-1].z);
+        glNormal3f(md.obj_points[md.obj_faces[i].vn[1]-1].x,md.obj_points[md.obj_faces[i].vn[1]-1].y,md.obj_points[md.obj_faces[i].vn[1]-1].z);
+        glNormal3f(md.obj_points[md.obj_faces[i].vn[2]-1].x,md.obj_points[md.obj_faces[i].vn[2]-1].y,md.obj_points[md.obj_faces[i].vn[2]-1].z);
+    }
+    glEnd();
+    glPopMatrix();
 }

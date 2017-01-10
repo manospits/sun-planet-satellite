@@ -3,7 +3,7 @@
 
 #define MIN_STARS 10
 #define MAX_STARS 1000
-#define POLYGON_NUM 9124
+#define POLYGON_NUM 9122
 #define FNUM 18240
 #define VNUM 9124
 
