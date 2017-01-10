@@ -14,7 +14,7 @@ model md;
 static float light_anim = 0.0;
 static bool plus = true;
 static bool pause_anim = false;
-static float cx = 0.0f, cy = 0.0f;
+static float cx = 0.0f, cy = 0.0f, planet_c=0.0f,planet_s=0.0f;
 
 void ReadFile();
 void DisplayModel();
@@ -71,12 +71,28 @@ void createSun() {
   glutSolidSphere(15.0 + 5.0 * light_anim, 30, 23);							   // Draw a built-in primitive
   glPopMatrix();
 }
+void DrawSatellite(){
+  glPushMatrix();
+  glTranslatef(0,0,-200);
+  glRotatef(planet_s,1,0,0);
+  glTranslatef(0,0,187);
+  glTranslatef(-50,13,-200);
+  glColor3f(0.5,0.0, 0.9);							   // Set drawing colour
+  glScalef(0.005,0.005,0.005);
+  DisplayModel();
+  glPopMatrix();
+
+}
 
 void DrawPlanet(){
   glPushMatrix();
-  glTranslatef(0,0,-50);
+  glTranslatef(0,0,-200);
+  glRotatef(planet_c,0,1,0);
+  glTranslatef(0,0,150);
+  DrawSatellite();
+  glTranslatef(-50,0,-200);
   glColor3f(0.1, 1.0, 0.4);							   // Set drawing colour
-  //glScalef(0.02,0.02,0.02);
+  glScalef(0.015,0.015,0.015);
   DisplayModel();
   glPopMatrix();
 
@@ -94,11 +110,11 @@ void Render()
   glRotatef(cy, 1,0,0);
   glTranslatef(0,0, 200);
 
-  //createSun();
+  createSun();
   DrawPlanet();
-  //stars.DrawStars();
+  stars.DrawStars();
 
-  //glTranslatef(0, 0, 200);
+  glTranslatef(0, 0, 200);
   glutSwapBuffers();             // All drawing commands applied to the
                                  // hidden buffer, so now, bring forward
                                  // the hidden buffer and hide the visible one
@@ -135,6 +151,8 @@ void Idle() {
             light_anim -= LIGHT_VAL;
         }
     }
+    planet_c+=1.5;
+    planet_s+=3;
     glutPostRedisplay();
 }
 
@@ -182,7 +200,7 @@ void Setup() {
 
 	glLightfv( GL_LIGHT0, GL_AMBIENT, ambientLight );
 	glLightfv( GL_LIGHT0, GL_DIFFUSE, diffuseLight );
-    glLightfv( GL_LIGHT0, GL_SPECULAR, specularLight );
+    //glLightfv( GL_LIGHT0, GL_SPECULAR, specularLight );
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -191,8 +209,8 @@ void Setup() {
 
 	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CW);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Black background
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -206,18 +224,17 @@ void ReadFile()
     pFile = fopen ("planet.obj","r");
     int i=0,j=0,k=0;
     while(!feof(pFile)){
-        fscanf(pFile,"%s ",buf);
+        fscanf(pFile,"%s  ",buf);
         if(strcmp(buf,"v")==0){
-            fscanf(pFile,"%f %f %f",&md.obj_points[i].x,&md.obj_points[i].y,&md.obj_points[i].z);
-            printf("%f %f %f\n",md.obj_points[i].x,md.obj_points[i].y,md.obj_points[i].z);
+            fscanf(pFile,"%f %f %f ",&md.obj_points[i].x,&md.obj_points[i].y,&md.obj_points[i].z);
             i++;
         }
         else if (strcmp(buf,"f")==0) {
-            fscanf(pFile,"%d//%d %d//%d %d//%d",&md.obj_faces[j].v[0],&md.obj_faces[j].vn[0],&md.obj_faces[j].v[1],&md.obj_faces[j].vn[1],&md.obj_faces[j].v[2],&md.obj_faces[j].vn[2]);
+            fscanf(pFile,"%d//%d %d//%d %d//%d ",&md.obj_faces[j].v[0],&md.obj_faces[j].vn[0],&md.obj_faces[j].v[1],&md.obj_faces[j].vn[1],&md.obj_faces[j].v[2],&md.obj_faces[j].vn[2]);
             j++;
         }
         else if(strcmp(buf,"vn")==0){
-            fscanf(pFile,"%f %f %f",&md.vn[k].x,&md.vn[k].y,&md.vn[k].z);
+            fscanf(pFile,"%f %f %f ",&md.vn[k].x,&md.vn[k].y,&md.vn[k].z);
             k++;
         }
     }
@@ -228,10 +245,11 @@ void DisplayModel(){
     glPushMatrix();
     glBegin(GL_TRIANGLES);
     for(int i=0;i<FNUM;i++){
-        glNormal3f(md.obj_points[md.obj_faces[i].vn[0]-1].x,md.obj_points[md.obj_faces[i].vn[0]-1].y,md.obj_points[md.obj_faces[i].vn[0]-1].z);
-        glNormal3f(md.obj_points[md.obj_faces[i].vn[1]-1].x,md.obj_points[md.obj_faces[i].vn[1]-1].y,md.obj_points[md.obj_faces[i].vn[1]-1].z);
-        glNormal3f(md.obj_points[md.obj_faces[i].vn[2]-1].x,md.obj_points[md.obj_faces[i].vn[2]-1].y,md.obj_points[md.obj_faces[i].vn[2]-1].z);
+        glVertex3f(md.obj_points[md.obj_faces[i].vn[0]-1].x,md.obj_points[md.obj_faces[i].vn[0]-1].y,md.obj_points[md.obj_faces[i].vn[0]-1].z);
+        glVertex3f(md.obj_points[md.obj_faces[i].vn[1]-1].x,md.obj_points[md.obj_faces[i].vn[1]-1].y,md.obj_points[md.obj_faces[i].vn[1]-1].z);
+        glVertex3f(md.obj_points[md.obj_faces[i].vn[2]-1].x,md.obj_points[md.obj_faces[i].vn[2]-1].y,md.obj_points[md.obj_faces[i].vn[2]-1].z);
     }
     glEnd();
     glPopMatrix();
 }
+
