@@ -92,7 +92,7 @@ void DrawPlanet(){
     glTranslatef(-60,0,-200);
     glColor3f(0.1, 0.3, 0.9);							   // Set drawing colour
     glRotatef(planet_cas,0,1,0);
-    glScalef(0.015,0.015,0.015);
+    glScalef(0.013,0.013,0.013);
     DisplayModel();
     glPopMatrix();
 
