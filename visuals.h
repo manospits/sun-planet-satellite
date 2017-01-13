@@ -16,14 +16,14 @@ typedef struct Star {
 } Star;
 
 class Stars {
-public:
-    Stars();
-    ~Stars();
-    void DrawStars();
+    public:
+        Stars();
+        ~Stars();
+        void DrawStars();
 
-private:
-    int numOfStars;
-    Star *starsArray;
+    private:
+        int numOfStars;
+        Star *starsArray;
 
 };
 
