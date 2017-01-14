@@ -1,7 +1,7 @@
 #ifndef VISUALS_H
 #define VISUALS_H
 
-#define MIN_STARS 10
+#define MIN_STARS 500
 #define MAX_STARS 1000
 #define POLYGON_NUM 9122
 #define FNUM 18240

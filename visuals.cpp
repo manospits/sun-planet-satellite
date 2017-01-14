@@ -7,7 +7,7 @@
 //   management library
 #include "visuals.h"   // Header file for our OpenGL functions
 
-#define LIGHT_VAL 0.01;
+#define LIGHT_VAL 0.05;
 
 Stars stars;
 model md;
@@ -65,17 +65,17 @@ void createSun() {
     glTranslatef(0,0,-200);
     glColor4f(1.0, 1.0, 0.4, 1.0);							   // Set drawing colour
     glutSolidSphere(15.0, 30, 23);							   // Draw a built-in primitive
-    glColor4f(1.0, 1.0, 0.4, light_anim);					   // Set drawing colour and transparency
-    glutSolidSphere(15.0 + 3.0 * light_anim, 30, 23);							   // Draw a built-in primitive
+    glColor4f(1.0, 1.0, 0.4, 0.7*light_anim);					   // Set drawing colour and transparency
+    glutSolidSphere(15.0 + 1.0 * light_anim, 30, 23);							   // Draw a built-in primitive
     glPopMatrix();
 }
 
 void DrawSatellite(){
     glPushMatrix();
-    glTranslatef(0,0,-200);
-    glRotatef(planet_s,1,0,0);
-    glTranslatef(0,0,187);
-    glTranslatef(-60,13,-200);
+    glTranslatef(-70,0,-200);
+    glRotatef(planet_s,0,1,0);
+    glTranslatef(70,0,200);
+    glTranslatef(-55,0,-200);
     glColor3f(0.9,0.1, 0.1);							   // Set drawing colour
     glScalef(0.005,0.005,0.005);
     DisplayModel();
@@ -87,9 +87,9 @@ void DrawPlanet(){
     glPushMatrix();
     glTranslatef(0,0,-200);
     glRotatef(planet_c,0,1,0);
-    glTranslatef(0,0,140);
+    glTranslatef(0,0,200);
     DrawSatellite();
-    glTranslatef(-60,0,-200);
+    glTranslatef(-70,0,-200);
     glColor3f(0.1, 0.3, 0.9);							   // Set drawing colour
     glRotatef(planet_cas,0,1,0);
     glScalef(0.013,0.013,0.013);
@@ -190,11 +190,11 @@ void Setup() {
     glColorMaterial( GL_FRONT, GL_AMBIENT_AND_DIFFUSE );
 
     //Set up light source
-    GLfloat light_position[] = { 0.0, 0.0, -5.0, 0.0 };
+    GLfloat light_position[] = { 0.0, 0.0, -200.0, 0.0 };
     glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
     GLfloat ambientLight[] = { 0.8, 0.8, 0.8, 0.8 };
-    GLfloat diffuseLight[] = { 0.03, 0.03, 0.03, 1.0 };
+    GLfloat diffuseLight[] = { 0.03, 0.03, 0.03, 0.1 };
     GLfloat specularLight[] = { 1.0, 1.0, 1.0, 1.0 };
 
 
