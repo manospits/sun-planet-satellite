@@ -14,12 +14,12 @@ model md;
 static float light_anim = 0.0;
 static bool plus = true;
 static bool pause_anim = false;
-static float cx = 0.0f, cy = 0.0f, planet_c=0.0f,planet_s=0.0f,planet_cas=0.0f;
+static float cx = 0.0f, cy = 0.0f, planet_c = 0.0f, planet_s = 0.0f, planet_cas = 0.0f;
 
 void ReadFile();
 void DisplayModel();
 
-Stars::Stars(){
+Stars::Stars() {
     srand(time(NULL));
     numOfStars=(rand() % (MAX_STARS - MIN_STARS + 1)) + MIN_STARS;
     starsArray = new Star[numOfStars];
@@ -39,7 +39,7 @@ Stars::~Stars() {
     starsArray = NULL;
 }
 
-void Stars::DrawStars(){
+void Stars::DrawStars() {
     float x,y,z,t,r;
     //printf("%d\n", numOfStars);
     for(int i=0;i<numOfStars;i++){
@@ -65,12 +65,12 @@ void createSun() {
     glTranslatef(0,0,-200);
     glColor4f(1.0, 1.0, 0.4, 1.0);							   // Set drawing colour
     glutSolidSphere(15.0, 30, 23);							   // Draw a built-in primitive
-    glColor4f(1.0, 1.0, 0.4, 0.7*light_anim);					   // Set drawing colour and transparency
-    glutSolidSphere(15.0 + 1.0 * light_anim, 30, 23);							   // Draw a built-in primitive
+    glColor4f(1.0, 1.0, 0.4, light_anim);					   // Set drawing colour and transparency
+    glutSolidSphere(15.0 + 4.0 * light_anim, 30, 23);							   // Draw a built-in primitive
     glPopMatrix();
 }
 
-void DrawSatellite(){
+void DrawSatellite() {
     glPushMatrix();
     glTranslatef(-70,0,-200);
     glRotatef(planet_s,0,1,0);
@@ -83,32 +83,31 @@ void DrawSatellite(){
 
 }
 
-void DrawPlanet(){
+void DrawPlanet() {
     glPushMatrix();
-    glTranslatef(0,0,-200);
-    glRotatef(planet_c,0,1,0);
-    glTranslatef(0,0,200);
+    glTranslatef(0, 0, -200);
+    glRotatef(planet_c, 0, 1, 0);
+    glTranslatef(0, 0, 200);
     DrawSatellite();
-    glTranslatef(-70,0,-200);
+    glTranslatef(-70, 0, -200);
     glColor3f(0.1, 0.3, 0.9);							   // Set drawing colour
-    glRotatef(planet_cas,0,1,0);
-    glScalef(0.013,0.013,0.013);
+    glRotatef(planet_cas, 0, 1, 0);
+    glScalef(0.013, 0.013, 0.013);
     DisplayModel();
     glPopMatrix();
-
 }
-void Render()
-{
-    static float deg=0;
+
+void Render() {
+    static float deg = 0;
     //CLEARS FRAME BUFFER ie COLOR BUFFER& DEPTH BUFFER (1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // Clean up the colour of the window
     // and the depth buffer
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glTranslatef(0,0, -200);
-    glRotatef(cx, 0,1,0);
-    glRotatef(cy, 1,0,0);
-    glTranslatef(0,0, 200);
+    glRotatef(cx, 0, 1, 0);
+    glRotatef(cy, 1, 0, 0);
+    glTranslatef(0, 0, 200);
 
     createSun();
     DrawPlanet();
@@ -126,7 +125,7 @@ void Resize(int w, int h)
 {
     // define the visible area of the window ( in pixels )
     if (h==0) h=1;
-    glViewport(0,0,w,h);
+    glViewport(0, 0, w, h);
 
     // Setup viewing volume
 
@@ -137,7 +136,6 @@ void Resize(int w, int h)
 }
 
 void Idle() {
-
     if (! pause_anim) {
         if (light_anim >= 1.0){
             plus = false;
@@ -151,9 +149,9 @@ void Idle() {
             light_anim -= LIGHT_VAL;
         }
     }
-    planet_c+=1.5;
-    planet_cas+=3;
-    planet_s+=3;
+    planet_c += 1.5;
+    planet_cas += 3;
+    planet_s += 3;
     glutPostRedisplay();
 }
 
@@ -255,4 +253,3 @@ void DisplayModel(){
     glEnd();
     glPopMatrix();
 }
-
