@@ -1,1 +1,1 @@
-# solar-system
+# uranus
