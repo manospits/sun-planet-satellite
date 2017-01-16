@@ -148,10 +148,11 @@ void Idle() {
         } else if (!plus) {
             light_anim -= LIGHT_VAL;
         }
+        planet_c += 1.5;
+        planet_cas += 3;
+        planet_s += 3;
+
     }
-    planet_c += 1.5;
-    planet_cas += 3;
-    planet_s += 3;
     glutPostRedisplay();
 }
 
