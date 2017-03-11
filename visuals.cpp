@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include "gl/glut.h"   // - An interface and windows
+#include <GL/glut.h>   // - An interface and windows
 //   management library
 #include "visuals.h"   // Header file for our OpenGL functions
 
@@ -40,7 +40,7 @@ Stars::~Stars() {
 }
 
 void Stars::DrawStars() {
-    float x,y,z,t,r;
+    float x,y,z,r;
     //printf("%d\n", numOfStars);
     for(int i=0;i<numOfStars;i++){
         glPushMatrix();
@@ -98,7 +98,6 @@ void DrawPlanet() {
 }
 
 void Render() {
-    static float deg = 0;
     //CLEARS FRAME BUFFER ie COLOR BUFFER& DEPTH BUFFER (1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // Clean up the colour of the window
     // and the depth buffer
